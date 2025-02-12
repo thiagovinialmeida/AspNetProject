@@ -22,7 +22,7 @@ namespace SalesWebMvc.Controllers
             return View(list);
         }
 
-        //GET Method
+        //GET: CreateSeller
         public IActionResult Create()
         {
             var departments = _departmentService.FindAll();
@@ -30,12 +30,38 @@ namespace SalesWebMvc.Controllers
             return View(viewModel);
         }
 
-        //POST Method
+        //POST: CreateSeller
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Seller seller)
         {
             _sellerService.Insert(seller);
+            return RedirectToAction(nameof(Index));
+        }
+
+        //GET: DeleteSeller
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+
+            return View(obj);
+        }
+
+        //POST: DeleteSeller
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
     }
