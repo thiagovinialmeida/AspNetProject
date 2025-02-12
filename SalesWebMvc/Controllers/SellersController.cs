@@ -39,19 +39,24 @@ namespace SalesWebMvc.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        //GET: Details
+        public IActionResult Details(int? id)
+        {
+            if (id == null){ return NotFound(); }
+
+            var obj = _sellerService.FindById(id.Value);
+            if(obj == null) { return NotFound(); }
+
+            return View(obj);
+        }
+
         //GET: DeleteSeller
         public IActionResult Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null){ return NotFound(); }
 
             var obj = _sellerService.FindById(id.Value);
-            if (obj == null)
-            {
-                return NotFound();
-            }
+            if (obj == null){ return NotFound(); }
 
             return View(obj);
         }
